@@ -138,6 +138,8 @@ void eol_settings::set_minimap_width(int w) { minimap_width_ = w; }
 
 void eol_settings::set_minimap_height(int h) { minimap_height_ = h; }
 
+void eol_settings::set_minimap_opacity(int o) { minimap_opacity_ = o; }
+
 /*
  * This uses the nlohmann json library to (de)serialise `eol_settings` to json.
  *

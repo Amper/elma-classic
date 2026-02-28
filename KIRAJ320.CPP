@@ -258,6 +258,22 @@ static void kiview(bool ajatekos, pic8* ppic, double baljobb, vect2 motorkozep, 
     int vy1 = 1;
     int vy2 = vy1 + Viewysize - 1;
 
+    int opacity = EolSettings->minimap_opacity();
+
+    // Save game scene pixels under the minimap area (including 1px border margin)
+    int save_x1 = vx1 - 1;
+    int save_y1 = vy1 - 1;
+    int save_x2 = vx2 + 1;
+    int save_y2 = vy2 + 1;
+    int save_w = save_x2 - save_x1 + 1;
+    int save_h = save_y2 - save_y1 + 1;
+    unsigned char save_buf[422 * 212]; // Max: (420+2) * (210+2)
+    if (opacity < 100) {
+        for (int y = 0; y < save_h; y++) {
+            memcpy(&save_buf[y * save_w], ppic->get_row(save_y1 + y) + save_x1, save_w);
+        }
+    }
+
     CanvasMinimap->render_minimap(ajatekos, ppic, sarok, vx1, vy1, vx2, vy2);
 
     // Most kirajzoljuk food-okat:
@@ -332,6 +348,21 @@ static void kiview(bool ajatekos, pic8* ppic, double baljobb, vect2 motorkozep, 
     memset(sor, Lgr->minimap_border_palette_id, Viewxsize);
     sor = ppic->get_row(vy2) + vx1 + 1;
     memset(sor, Lgr->minimap_border_palette_id, Viewxsize);
+
+    // bring back pixels from the saved game scene based on opacity
+    if (opacity < 100) {
+        static const int bayer[2][2] = {{0, 2}, {3, 1}};
+        int threshold = (opacity == 75) ? 3 : (opacity == 50) ? 2 : 1;
+        for (int y = 0; y < save_h; y++) {
+            unsigned char* row = ppic->get_row(save_y1 + y) + save_x1;
+            unsigned char* saved = &save_buf[y * save_w];
+            for (int x = 0; x < save_w; x++) {
+                if (bayer[(save_y1 + y) % 2][(save_x1 + x) % 2] >= threshold) {
+                    row[x] = saved[x];
+                }
+            }
+        }
+    }
 }
 
 // Mentes lemezre:

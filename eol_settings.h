@@ -8,6 +8,7 @@
 class state;
 
 enum class MapAlignment { None, Left, Middle, Right };
+enum class MinimapSize { S140x70, S180x90, S220x110, S280x140, S350x175, S420x210 };
 enum class RendererType { Software, OpenGL };
 
 template <typename T> struct Default {
@@ -84,6 +85,7 @@ class eol_settings {
     Default<bool> show_best_times_menu_{true};
     Default<bool> still_objects_{false};
     Default<bool> all_internals_accessible_{false};
+    Default<MinimapSize> minimap_size_{MinimapSize::S140x70};
 
   public:
     static void read_settings();
@@ -122,6 +124,7 @@ class eol_settings {
     DECLARE_FIELD_FUNCS(show_best_times_menu);
     DECLARE_FIELD_FUNCS(still_objects);
     DECLARE_FIELD_FUNCS(all_internals_accessible);
+    DECLARE_FIELD_FUNCS(minimap_size);
 };
 
 #undef DECLARE_FIELD_FUNCS

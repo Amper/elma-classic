@@ -128,8 +128,17 @@ void beallitmereteket(int splitscreen) {
     Mo_dx = Cxsize / MetersToPixels - 2.0 * Mo_bal;
     Mo_y = Cysize / MetersToPixels / 2.0;
 
-    Viewxsize = (int)(140.0 * sqrt(double(Cysize) / double(SCREEN_HEIGHT))); // 200
-    Viewysize = (int)(70.0 * sqrt(double(Cysize) / double(SCREEN_HEIGHT)));  // 80
+    double base_w, base_h;
+    switch (EolSettings->minimap_size()) {
+    case MinimapSize::S140x70:  base_w = 140.0; base_h =  70.0; break;
+    case MinimapSize::S180x90:  base_w = 180.0; base_h =  90.0; break;
+    case MinimapSize::S220x110: base_w = 220.0; base_h = 110.0; break;
+    case MinimapSize::S280x140: base_w = 280.0; base_h = 140.0; break;
+    case MinimapSize::S350x175: base_w = 350.0; base_h = 175.0; break;
+    case MinimapSize::S420x210: base_w = 420.0; base_h = 210.0; break;
+    }
+    Viewxsize = (int)(base_w * sqrt(double(Cysize) / double(SCREEN_HEIGHT)));
+    Viewysize = (int)(base_h * sqrt(double(Cysize) / double(SCREEN_HEIGHT)));
     Viewxorig = (int)(40.0 * (Kepmeret - 0.6) / 0.4);
     Viewxtolas = Cxsize - 2 * Viewxorig - Viewxsize;
 }

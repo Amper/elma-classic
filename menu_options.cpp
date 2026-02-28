@@ -173,6 +173,42 @@ void menu_options() {
             });
 
         nav.add_row(
+            "Minimap Size:",
+            [] {
+                switch (EolSettings->minimap_size()) {
+                case MinimapSize::S140x70:  return "140x70";
+                case MinimapSize::S180x90:  return "180x90";
+                case MinimapSize::S220x110: return "220x110";
+                case MinimapSize::S280x140: return "280x140";
+                case MinimapSize::S350x175: return "350x175";
+                case MinimapSize::S420x210: return "420x210";
+                }
+                return "";
+            }(),
+            NAV_FUNC() {
+                switch (EolSettings->minimap_size()) {
+                case MinimapSize::S140x70:
+                    EolSettings->set_minimap_size(MinimapSize::S180x90);
+                    return;
+                case MinimapSize::S180x90:
+                    EolSettings->set_minimap_size(MinimapSize::S220x110);
+                    return;
+                case MinimapSize::S220x110:
+                    EolSettings->set_minimap_size(MinimapSize::S280x140);
+                    return;
+                case MinimapSize::S280x140:
+                    EolSettings->set_minimap_size(MinimapSize::S350x175);
+                    return;
+                case MinimapSize::S350x175:
+                    EolSettings->set_minimap_size(MinimapSize::S420x210);
+                    return;
+                case MinimapSize::S420x210:
+                    EolSettings->set_minimap_size(MinimapSize::S140x70);
+                    return;
+                }
+            });
+
+        nav.add_row(
             "Resolution:",
             std::format("{}x{}", EolSettings->screen_width(), EolSettings->screen_height()),
             NAV_FUNC() {

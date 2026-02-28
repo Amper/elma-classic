@@ -39,6 +39,7 @@ template <typename T> void Clamp<T>::reset() { value = def; }
 
 template struct Default<bool>;
 template struct Default<MapAlignment>;
+template struct Default<MinimapSize>;
 template struct Default<RendererType>;
 template struct Default<DikScancode>;
 template struct Default<std::string>;
@@ -134,6 +135,8 @@ void eol_settings::set_still_objects(bool still) { still_objects_ = still; }
 
 void eol_settings::set_all_internals_accessible(bool b) { all_internals_accessible_ = b; }
 
+void eol_settings::set_minimap_size(MinimapSize s) { minimap_size_ = s; }
+
 /*
  * This uses the nlohmann json library to (de)serialise `eol_settings` to json.
  *
@@ -199,6 +202,47 @@ void from_json(const json& j, RendererType& r) {
     }
 }
 
+void to_json(json& j, const MinimapSize& s) {
+    switch (s) {
+    case MinimapSize::S140x70:
+        j = "140x70";
+        break;
+    case MinimapSize::S180x90:
+        j = "180x90";
+        break;
+    case MinimapSize::S220x110:
+        j = "220x110";
+        break;
+    case MinimapSize::S280x140:
+        j = "280x140";
+        break;
+    case MinimapSize::S350x175:
+        j = "350x175";
+        break;
+    case MinimapSize::S420x210:
+        j = "420x210";
+        break;
+    }
+}
+
+void from_json(const json& j, MinimapSize& s) {
+    if (j == "140x70") {
+        s = MinimapSize::S140x70;
+    } else if (j == "180x90") {
+        s = MinimapSize::S180x90;
+    } else if (j == "220x110") {
+        s = MinimapSize::S220x110;
+    } else if (j == "280x140") {
+        s = MinimapSize::S280x140;
+    } else if (j == "350x175") {
+        s = MinimapSize::S350x175;
+    } else if (j == "420x210") {
+        s = MinimapSize::S420x210;
+    } else {
+        throw("[json.exception.type_error.302] (/minimap_size) invalid value");
+    }
+}
+
 #define FIELD_LIST                                                                                 \
     JSON_FIELD(screen_width)                                                                       \
     JSON_FIELD(screen_height)                                                                      \
@@ -230,7 +274,8 @@ void from_json(const json& j, RendererType& r) {
     JSON_FIELD(show_help_menu)                                                                     \
     JSON_FIELD(show_best_times_menu)                                                               \
     JSON_FIELD(still_objects)                                                                      \
-    JSON_FIELD(all_internals_accessible)
+    JSON_FIELD(all_internals_accessible)                                                           \
+    JSON_FIELD(minimap_size)
 
 #define JSON_FIELD(name) {#name, s.name()},
 void to_json(json& j, const eol_settings& s) { j = json{FIELD_LIST}; }

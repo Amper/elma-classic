@@ -41,6 +41,9 @@ static void create_window(int window_pos_x, int window_pos_y, int width, int hei
     }
 
     int window_flags = EolSettings->renderer() == RendererType::OpenGL ? SDL_WINDOW_OPENGL : 0;
+    if (EolSettings->fullscreen()) {
+        window_flags |= SDL_WINDOW_FULLSCREEN;
+    }
 
     SDLWindow =
         SDL_CreateWindow("Elasto Mania", window_pos_x, window_pos_y, width, height, window_flags);
@@ -117,6 +120,10 @@ void platform_recreate_window() {
     SDL_DestroyWindow(SDLWindow);
     SDLWindow = nullptr;
 
+    if (!EolSettings->fullscreen()) {
+        x = SDL_WINDOWPOS_CENTERED;
+        y = SDL_WINDOWPOS_CENTERED;
+    }
     create_window(x, y, width, height);
     initialize_renderer();
     create_palette_surface();

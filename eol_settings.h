@@ -84,6 +84,8 @@ class eol_settings {
     Default<bool> show_best_times_menu_{true};
     Default<bool> still_objects_{false};
     Default<bool> all_internals_accessible_{false};
+    Clamp<int> minimap_width_{140, 140, 420};
+    Clamp<int> minimap_height_{70, 70, 210};
 
   public:
     static void read_settings();
@@ -122,6 +124,8 @@ class eol_settings {
     DECLARE_FIELD_FUNCS(show_best_times_menu);
     DECLARE_FIELD_FUNCS(still_objects);
     DECLARE_FIELD_FUNCS(all_internals_accessible);
+    DECLARE_FIELD_FUNCS(minimap_width);
+    DECLARE_FIELD_FUNCS(minimap_height);
 };
 
 #undef DECLARE_FIELD_FUNCS

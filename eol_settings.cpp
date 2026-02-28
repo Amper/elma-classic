@@ -138,6 +138,18 @@ void eol_settings::set_minimap_width(int w) { minimap_width_ = w; }
 
 void eol_settings::set_minimap_height(int h) { minimap_height_ = h; }
 
+void eol_settings::set_fullscreen(bool b) {
+    if (fullscreen_ == b) {
+        return;
+    }
+
+    fullscreen_ = b;
+    if (has_window()) {
+        platform_recreate_window();
+        MenuPalette->set();
+    }
+}
+
 /*
  * This uses the nlohmann json library to (de)serialise `eol_settings` to json.
  *
@@ -236,7 +248,8 @@ void from_json(const json& j, RendererType& r) {
     JSON_FIELD(still_objects)                                                                      \
     JSON_FIELD(all_internals_accessible)                                                           \
     JSON_FIELD(minimap_width)                                                                      \
-    JSON_FIELD(minimap_height)
+    JSON_FIELD(minimap_height)                                                                     \
+    JSON_FIELD(fullscreen)
 
 #define JSON_FIELD(name) {#name, s.name()},
 void to_json(json& j, const eol_settings& s) { j = json{FIELD_LIST}; }

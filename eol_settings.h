@@ -86,6 +86,7 @@ class eol_settings {
     Default<bool> all_internals_accessible_{false};
     Clamp<int> minimap_width_{140, 140, 420};
     Clamp<int> minimap_height_{70, 70, 210};
+    Default<bool> fullscreen_{false};
 
   public:
     static void read_settings();
@@ -126,6 +127,7 @@ class eol_settings {
     DECLARE_FIELD_FUNCS(all_internals_accessible);
     DECLARE_FIELD_FUNCS(minimap_width);
     DECLARE_FIELD_FUNCS(minimap_height);
+    DECLARE_FIELD_FUNCS(fullscreen);
 };
 
 #undef DECLARE_FIELD_FUNCS

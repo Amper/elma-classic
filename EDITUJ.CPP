@@ -13,7 +13,9 @@
 #include "level_load.h"
 #include "M_PIC.H"
 #include "main.h"
+#include "menu_nav.h"
 #include "menu_pic.h"
+#include "menu_play.h"
 #include "object.h"
 #include "pic8.h"
 #include "platform_impl.h"
@@ -612,6 +614,27 @@ static void toolvaltas(int t) {
 
 // static int Mouseinited = 0;
 
+static void editor_post_play_menu() {
+    MenuPalette->set();
+    std::string title = std::string("Editor: ") + Ptop->level_name;
+    while (true) {
+        menu_nav nav(title);
+        nav.x_left = 230;
+        nav.y_entries = 160;
+        nav.dy = 42;
+        nav.add_row(
+            "Replay", NAV_FUNC() {
+                replay_previous_run();
+                MenuPalette->set();
+            });
+        nav.add_row("Save play", NAV_FUNC() { menu_save_play(Ptop->level_id); });
+        int choice = nav.navigate();
+        if (choice < 0) {
+            return;
+        }
+    }
+}
+
 static void editor_play(bool view_map) {
     invalidateegesz();
     if (Valtozott || State->editor_filename[0] == 0 || Ptop->topology_errors) {
@@ -629,6 +652,8 @@ static void editor_play(bool view_map) {
     Rec1->erase(State->editor_filename);
     Rec2->erase(State->editor_filename);
     lejatszo(State->editor_filename, view_map ? CameraMode::MapViewer : CameraMode::Normal);
+
+    editor_post_play_menu();
 
     empty_keypress_buffer();
 

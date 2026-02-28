@@ -173,6 +173,32 @@ void menu_options() {
             });
 
         nav.add_row(
+            "Minimap Size:",
+            std::format("{}x{}", EolSettings->minimap_width(), EolSettings->minimap_height()),
+            NAV_FUNC() {
+                int w = EolSettings->minimap_width();
+                if (w == 140) {
+                    EolSettings->set_minimap_width(180);
+                    EolSettings->set_minimap_height(90);
+                } else if (w == 180) {
+                    EolSettings->set_minimap_width(220);
+                    EolSettings->set_minimap_height(110);
+                } else if (w == 220) {
+                    EolSettings->set_minimap_width(280);
+                    EolSettings->set_minimap_height(140);
+                } else if (w == 280) {
+                    EolSettings->set_minimap_width(350);
+                    EolSettings->set_minimap_height(175);
+                } else if (w == 350) {
+                    EolSettings->set_minimap_width(420);
+                    EolSettings->set_minimap_height(210);
+                } else {
+                    EolSettings->set_minimap_width(140);
+                    EolSettings->set_minimap_height(70);
+                }
+            });
+
+        nav.add_row(
             "Resolution:",
             std::format("{}x{}", EolSettings->screen_width(), EolSettings->screen_height()),
             NAV_FUNC() {

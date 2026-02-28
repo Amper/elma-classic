@@ -198,6 +198,8 @@ void menu_options() {
                 }
             });
 
+        BOOL_OPTION("Full Screen:", fullscreen);
+
         nav.add_row(
             "Resolution:",
             std::format("{}x{}", EolSettings->screen_width(), EolSettings->screen_height()),

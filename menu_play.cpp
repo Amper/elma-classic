@@ -25,7 +25,7 @@
 #include <optional>
 
 // Prompt for replay filename and return true if enter, false if esc
-static bool menu_prompt_replay_name(char* filename) {
+bool menu_prompt_replay_name(char* filename) {
     menu_pic menu;
     int i = 0;
     empty_keypress_buffer();
@@ -75,7 +75,7 @@ static bool menu_prompt_replay_name(char* filename) {
     }
 }
 
-static void menu_save_play(int level_id) {
+void menu_save_play(int level_id) {
     char tmp[20] = "";
     if (!menu_prompt_replay_name(tmp)) {
         return;

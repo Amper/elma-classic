@@ -21,4 +21,7 @@ MenuLevel menu_level(int internal_index, bool nav_on_play_next, const char* time
 
 void loading_screen();
 
+void replay_previous_run();
+void menu_save_play(int level_id);
+
 #endif
